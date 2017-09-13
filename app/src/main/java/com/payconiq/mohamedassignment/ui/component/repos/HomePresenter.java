@@ -13,6 +13,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.realm.RealmResults;
+
 import static com.payconiq.mohamedassignment.utils.ObjectUtil.isNull;
 
 /**
@@ -68,21 +70,38 @@ public class HomePresenter extends Presenter<HomeView> {
             if (!isNull(repoItems) && !repoItems.isEmpty()) {
                 getView().initializerepoList(repoItems);
                 showList(true);
+                repoUseCase.saveLocalData(reposModel);
                 if (repoItems.size() < Constants.PAGESIZE)
                     loadmore = false;
             } else {
-                showList(false);
+                if (!loadLocalData())
+                    showList(false);
+                loadmore = false;
             }
             getView().setLoaderVisibility(false);
         }
 
         @Override
         public void onFail() {
+            loadmore = false;
             getView().decrementCountingIdlingResource();
-            showList(false);
+            if (!loadLocalData())
+                showList(false);
             getView().setLoaderVisibility(false);
         }
     };
+
+    private boolean loadLocalData() {
+        RealmResults<Repo> repoItems = repoUseCase.loadLocalData();
+        if (!isNull(repoItems) && !repoItems.isEmpty()) {
+            getView().initializerepoList(repoItems);
+            showList(true);
+            return true;
+        }
+        return false;
+    }
+
+
     private boolean loadmore = true;
     private final RepoUseCase.Callback callback2 = new RepoUseCase.Callback() {
         @Override
@@ -105,6 +124,7 @@ public class HomePresenter extends Presenter<HomeView> {
         public void onFail() {
             getView().decrementCountingIdlingResource();
             getView().hideLoadMoreInList();
+            loadmore = false;
             //            showList(false);
             //            getView().setLoaderVisibility(false);
         }

@@ -45,7 +45,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Presente
 
     protected abstract void initializePresenter();
 
-    protected abstract void initializeRealm();
 
      public abstract int getLayoutId();
 
@@ -57,7 +56,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Presente
         initializeDagger();
         initializePresenter();
         initializeToolbar();
-        initializeRealm();
 
         if (presenter != null) {
             presenter.initialize(getIntent().getExtras());

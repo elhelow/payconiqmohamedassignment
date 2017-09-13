@@ -37,12 +37,10 @@ public class ApiRepository {
         this.serviceGenerator = serviceGenerator;
     }
 
-    public ServiceResponse getData(String pageNumber, Realm realm) {
+    public ServiceResponse getData(String pageNumber) {
         if (!NetworkUtils.isConnected(App.getContext())) {
-            // Pull all the repos from the realm
-            RealmResults<Repo> reposList = realm.where(Repo.class).findAll();
-            return new ServiceResponse(reposList);
-            //return null;
+
+            return null;
         } else {
             DataService repoService = serviceGenerator.createService(DataService.class, Constants.BASE_URL);
             ServiceResponse serviceResponse = processCall(repoService.fetchRepos(pageNumber, Constants.PAGESIZE),

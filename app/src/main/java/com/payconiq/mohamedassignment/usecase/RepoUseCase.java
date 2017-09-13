@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import io.realm.RealmResults;
+
 import static com.payconiq.mohamedassignment.data.remote.ServiceError.isSuccess;
 import static com.payconiq.mohamedassignment.utils.ObjectUtil.isNull;
 
@@ -20,6 +22,7 @@ import static com.payconiq.mohamedassignment.utils.ObjectUtil.isNull;
  */
 
 public class RepoUseCase {
+
     DataRepository dataRepository;
 
     @Inject
@@ -40,7 +43,17 @@ public class RepoUseCase {
             });
         }).start();
     }
+
+    public RealmResults<Repo> loadLocalData() {
+        return dataRepository.requestLocalData();
+    }
+
+    public void saveLocalData(ArrayList<Repo> repsList) {
+        dataRepository.saveLocalData(repsList);
+    }
+
     public interface Callback {
+
         void onSuccess(ArrayList<Repo> repoModel);
 
         void onFail();

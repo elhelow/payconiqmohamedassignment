@@ -200,9 +200,6 @@ public class Repo extends RealmObject implements Parcelable {
     @SerializedName("forks_count")
     @Expose
     public int forksCount;
-    @SerializedName("mirror_url")
-    @Expose
-    public Object mirrorUrl;
     @SerializedName("open_issues_count")
     @Expose
     public int openIssuesCount;
@@ -218,6 +215,9 @@ public class Repo extends RealmObject implements Parcelable {
     @SerializedName("default_branch")
     @Expose
     public String defaultBranch;
+
+    public Repo() {
+    }
 
     protected Repo(Parcel in) {
         id = in.readInt();

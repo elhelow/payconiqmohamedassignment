@@ -34,11 +34,6 @@ public class SplashActivity extends BaseActivity implements SplashView {
     }
 
     @Override
-    protected void initializeRealm() {
-
-    }
-
-    @Override
     public int getLayoutId() {
         return R.layout.splash_layout;
     }

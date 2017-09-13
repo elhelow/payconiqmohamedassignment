@@ -55,7 +55,6 @@ public class HomeActivity extends BaseActivity implements
     @Bind(R.id.rl_repo_list)
     RelativeLayout rlrepoList;
     private ReposAdapter repoAdapter;
-    Realm realm;
     @Override
     protected void initializeDagger() {
         App app = (App) getApplicationContext();
@@ -87,18 +86,7 @@ public class HomeActivity extends BaseActivity implements
         rvrepo.setAdapter(repoAdapter);
     }
 
-    @Override
-    protected void initializeRealm() {
-        Realm.init(this);
 
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
-
-        // Clear the realm from last time
-        Realm.deleteRealm(realmConfiguration);
-
-        // Create a new empty instance of Realm
-        realm = Realm.getInstance(realmConfiguration);
-    }
 
     @Override
     public void setLoaderVisibility(boolean isVisible) {
@@ -145,10 +133,6 @@ public class HomeActivity extends BaseActivity implements
     @Override
     public void updaterepoList(List<Repo> repoItems) {
 //        repoAdapter.remove(repoAdapter.getItemCount() - 1);
-        realm.beginTransaction();
-        Collection<Repo> storedItems = realm.copyToRealm(repoItems);
-        realm.commitTransaction();
-
         repoAdapter.addAll(repoItems);
         repoAdapter.setLoaded();
     }

@@ -40,11 +40,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     }
 
     @Override
-    protected void initializeRealm() {
-
-    }
-
-    @Override
     public int getLayoutId() {
         return R.layout.details_layout;
     }
